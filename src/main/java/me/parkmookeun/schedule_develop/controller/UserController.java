@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto){
+    public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto){
 
         SignUpResponseDto signUpResponseDto = userService.signUp(dto);
 
@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<Void> login(@RequestBody LoginRequestDto dto,
+    public ResponseEntity<Void> login(@RequestBody LoginRequestDto dto,
                                HttpServletRequest request)
     {
         Long loginId = userService.login(dto);
@@ -39,14 +39,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    ResponseEntity<UserResponseDto> findById(@PathVariable Long userId){
+    public ResponseEntity<UserResponseDto> findById(@PathVariable Long userId){
         UserResponseDto userResponseDto =  userService.findById(userId);
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
     @PutMapping
-    ResponseEntity<UserUpdateResDto> updateUser(@RequestBody UserUpdateReqDto dto,
+    public ResponseEntity<UserUpdateResDto> updateUser(@RequestBody UserUpdateReqDto dto,
                                                 HttpServletRequest request){
 
         HttpSession session = request.getSession();
@@ -60,11 +60,22 @@ public class UserController {
 
 
     @DeleteMapping
-    ResponseEntity<Void> deleteUser(HttpServletRequest request){
+    public ResponseEntity<Void> deleteUser(HttpServletRequest request){
         HttpSession session = request.getSession();
         Long loginId = (Long) session.getAttribute("loginId");
 
         userService.deleteUser(loginId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request){
+        HttpSession session = request.getSession();
+
+        if(session != null){
+            session.invalidate();
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -76,4 +87,6 @@ public class UserController {
 
         return loginId.toString(); //oginId.toString();
     }
+
+
 }
