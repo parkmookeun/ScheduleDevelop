@@ -2,9 +2,11 @@ package me.parkmookeun.schedule_develop.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "schedule")
 public class Schedule extends BaseEntity{
     @Id
