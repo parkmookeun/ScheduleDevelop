@@ -290,7 +290,6 @@
     - 요청: PUT /api/schedules/{scheduleId}
   ```json
   {
-        "scheduleId" : 2,
         "title" : "수정된 일정 제목2",
         "contents" : "수정된 일정 내용2"
   }
@@ -311,12 +310,6 @@
             <td ><b>이름</b></td>
             <td ><b>타입</b></td>
             <td ><b>설명</b></td>
-            <td ><b>필수</b></td>
-          </tr>
-          <tr>
-            <td ><b>scheduleId</b></td>
-            <td ><b>int</b></td>
-            <td ><b></b></td>
             <td ><b>필수</b></td>
           </tr>
           <tr>
