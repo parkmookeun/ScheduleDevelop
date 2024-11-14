@@ -30,7 +30,6 @@ public class ScheduleService {
         Schedule schedule = new Schedule(dto);
         schedule.setUser(user);
 
-
         Schedule savedUser = scheduleRepository.save(schedule);
         return new ScheduleResponseDto(savedUser.getScheduleId(), savedUser.getTitle(),
                                        savedUser.getContents(), savedUser.getCreatedAt());

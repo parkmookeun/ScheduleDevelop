@@ -1,8 +1,11 @@
 package me.parkmookeun.schedule_develop.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.parkmookeun.schedule_develop.config.PasswordEncoder;
 import me.parkmookeun.schedule_develop.dto.*;
 import me.parkmookeun.schedule_develop.entity.User;
+import me.parkmookeun.schedule_develop.exception.WrongInputException;
 import me.parkmookeun.schedule_develop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,19 +13,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     public SignUpResponseDto signUp(SignUpRequestDto dto){
-        User user = new User(dto.getUsername(),dto.getEmail(),dto.getPassword());
+        User user = new User(dto.getUsername(),dto.getEmail(), encoder.encode(dto.getPassword()));
         User savedUser = userRepository.save(user);
 
         return new SignUpResponseDto(savedUser);
     }
 
     public Long login(LoginRequestDto dto) {
-        User user = userRepository.findByEmailAndPasswordOrElseThrow(dto.getEmail(), dto.getPassword());
+        User user = userRepository.findByEmailOrElseThrow(dto.getEmail());
+
+        if(!encoder.matches(dto.getPassword(),user.getPassword())){
+            throw new WrongInputException("비밀번호가 일치하지 않습니다!");
+        }
 
         return user.getId();
     }

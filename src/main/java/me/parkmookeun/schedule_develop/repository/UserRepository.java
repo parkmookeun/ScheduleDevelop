@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    default User findByEmailAndPasswordOrElseThrow(String email, String passsword){
-        return findByEmailAndPassword(email, passsword).orElseThrow(() -> new WrongInputException("이메일과 패스워드가 일치하지 않습니다!"));
+    default User findByEmailOrElseThrow(String email){
+        return findByEmail(email).orElseThrow(() -> new WrongInputException("이메일이 존재하지 않습니다!"));
     }
 
 
     default User findByIdOrElseThrow(Long id){
         return findById(id).orElseThrow(() -> new UserNotFoundException("해당하는 유저가 없습니다!"));
     }
-    Optional<User> findByEmailAndPassword(String email, String password);
+    Optional<User> findByEmail(String email);
 }

@@ -93,7 +93,7 @@ public class ExceptionValidException {
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<Map<String,String>> emailDuplExceptionHandler(IllegalArgumentException e) {
+    public ResponseEntity<Map<String,String>> logOutExceptionHandler(IllegalArgumentException e) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
