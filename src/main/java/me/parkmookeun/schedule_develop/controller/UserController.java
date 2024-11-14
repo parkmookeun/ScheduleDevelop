@@ -2,6 +2,7 @@ package me.parkmookeun.schedule_develop.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.parkmookeun.schedule_develop.dto.*;
@@ -9,6 +10,8 @@ import me.parkmookeun.schedule_develop.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto){
+    public ResponseEntity<SignUpResponseDto> signup( @Valid @RequestBody SignUpRequestDto dto){
 
         SignUpResponseDto signUpResponseDto = userService.signUp(dto);
 
@@ -27,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequestDto dto,
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto dto,
                                HttpServletRequest request)
     {
         Long loginId = userService.login(dto);
@@ -46,8 +49,8 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserUpdateResDto> updateUser(@RequestBody UserUpdateReqDto dto,
-                                                HttpServletRequest request){
+    public ResponseEntity<UserUpdateResDto> updateUser(@Valid @RequestBody UserUpdateReqDto dto,
+                                                HttpServletRequest request) throws SQLIntegrityConstraintViolationException {
 
         HttpSession session = request.getSession();
         Long loginId = (Long) session.getAttribute("loginId");

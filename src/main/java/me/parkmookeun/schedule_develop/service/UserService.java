@@ -3,12 +3,11 @@ package me.parkmookeun.schedule_develop.service;
 import lombok.RequiredArgsConstructor;
 import me.parkmookeun.schedule_develop.dto.*;
 import me.parkmookeun.schedule_develop.entity.User;
-import me.parkmookeun.schedule_develop.exception.UserNotFoundException;
 import me.parkmookeun.schedule_develop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,16 +28,13 @@ public class UserService {
     }
 
     public UserResponseDto findById(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isEmpty()){
-            throw new UserNotFoundException();
-        }
-        User findUser = optionalUser.get();
+        User findUser = userRepository.findByIdOrElseThrow(userId);
+
         return new UserResponseDto(findUser.getId(), findUser.getEmail(), findUser.getUsername());
     }
 
     @Transactional
-    public UserUpdateResDto updateUser(Long loginId, UserUpdateReqDto dto) {
+    public UserUpdateResDto updateUser(Long loginId, UserUpdateReqDto dto) throws SQLIntegrityConstraintViolationException {
         User user = userRepository.findByIdOrElseThrow(loginId);
 
         user.setEmail(dto.getEmail());

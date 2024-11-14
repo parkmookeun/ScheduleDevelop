@@ -1,5 +1,6 @@
 package me.parkmookeun.schedule_develop.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.parkmookeun.schedule_develop.dto.ScheduleRequestDto;
 import me.parkmookeun.schedule_develop.dto.ScheduleResponseDto;
@@ -20,7 +21,7 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> createSchedule(
-            @RequestBody ScheduleRequestDto dto,
+            @Valid @RequestBody ScheduleRequestDto dto,
             @SessionAttribute("loginId") Long id){
 
         ScheduleResponseDto  scheduleResponseDto = scheduleService.createSchedule(dto, id);
@@ -43,7 +44,7 @@ public class ScheduleController {
 
     @PutMapping("/{scheduleId}")
     public ResponseEntity<ScheduleUpdateResDto> updateSchedule(@PathVariable Long scheduleId,
-                                                               @RequestBody ScheduleUpdateReqDto dto,
+                                                               @Valid @RequestBody ScheduleUpdateReqDto dto,
                                                                @SessionAttribute("loginId") Long loginId){
        ScheduleUpdateResDto responseDto = scheduleService.updateSchedule(dto, scheduleId, loginId);
 
