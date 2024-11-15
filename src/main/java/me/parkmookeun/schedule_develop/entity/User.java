@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BaseEntity + 아이디,유저명,이메일,비밀번호,유저 일정목록
+ */
 @Getter
 @Entity
 @NoArgsConstructor
@@ -30,6 +33,9 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Schedule> scheduleList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 
     public User(String username, String email, String password){
         this.username = username;

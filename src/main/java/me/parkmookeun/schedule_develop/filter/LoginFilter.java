@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 로그인 필터 -> 로그인 안하면 댓글CRUD/일정CRUD/유저RUD 접근 불가
+ */
 public class LoginFilter implements Filter {
     // 인증을 하지 않아도될 URL Path 배열
     private static final String[] WHITE_LIST = {"/api/users/signup", "/api/users/login","/api/users/logout"};

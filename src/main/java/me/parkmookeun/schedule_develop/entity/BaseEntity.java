@@ -10,6 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * BaseEntity - 생성시간,수정시간
+ */
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

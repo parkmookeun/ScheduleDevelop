@@ -9,6 +9,9 @@ import me.parkmookeun.schedule_develop.dto.ScheduleRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BaseEntity + 일정아이디,일정제목,일정내용,유저아이디,일정 댓글목록
+ */
 @Getter
 @Entity
 @NoArgsConstructor
@@ -16,7 +19,7 @@ import java.util.List;
 public class Schedule extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scheduleId;
+    private Long id;
 
     @Setter
     @Column(name = "title", nullable = false)

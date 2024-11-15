@@ -12,6 +12,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
         return findById(id).orElseThrow(() -> new ScheduleNotFoundException(id+"에 해당하는 댓글이 없습니다!"));
     }
 
-    Page<Comment> findAllBySchedule_ScheduleId(Pageable pageable, Long scheduleId);
+    Page<Comment> findAllBySchedule_Id(Pageable pageable, Long scheduleId);
 
 }

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * BaseEntity + 아이디,댓글내용,일정아이디
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -24,6 +27,10 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Comment(String contents){
         this.contents =contents;

@@ -9,6 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
 
+    /**
+     *
+     * @return 필터등록빈 반환
+     */
     @Bean
     public FilterRegistrationBean loginFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
