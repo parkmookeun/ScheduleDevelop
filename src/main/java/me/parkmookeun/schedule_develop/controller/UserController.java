@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import me.parkmookeun.schedule_develop.dto.*;
 import me.parkmookeun.schedule_develop.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/api/users")
 public class UserController {
 

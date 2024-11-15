@@ -1,7 +1,6 @@
 package me.parkmookeun.schedule_develop.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import me.parkmookeun.schedule_develop.config.PasswordEncoder;
 import me.parkmookeun.schedule_develop.dto.*;
 import me.parkmookeun.schedule_develop.entity.User;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;

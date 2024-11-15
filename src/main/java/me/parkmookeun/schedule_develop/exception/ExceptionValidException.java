@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -88,7 +89,7 @@ public class ExceptionValidException {
 
         map.put("error type", httpStatus.getReasonPhrase());
         map.put("code", String.valueOf(httpStatus.value()));
-        map.put("message", "SQL에러: 이메일 중복");
+        map.put("message", e.getMessage());
         return new ResponseEntity<>(map,httpHeaders, httpStatus);
     }
 
@@ -103,7 +104,37 @@ public class ExceptionValidException {
 
         map.put("error type", httpStatus.getReasonPhrase());
         map.put("code", String.valueOf(httpStatus.value()));
-        map.put("message", "로그인 세션이 만료되었습니다!");
+        map.put("message", e.getMessage());
+        return new ResponseEntity<>(map,httpHeaders, httpStatus);
+    }
+
+    @ExceptionHandler(value = ServletRequestBindingException.class)
+    public ResponseEntity<Map<String,String>> logOutExceptionHandler(ServletRequestBindingException e) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        Map<String, String> map = new HashMap<>();
+
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+
+        map.put("error type", httpStatus.getReasonPhrase());
+        map.put("code", String.valueOf(httpStatus.value()));
+        map.put("message", e.getMessage());
+        return new ResponseEntity<>(map,httpHeaders, httpStatus);
+    }
+
+    @ExceptionHandler(value = LoginEssentialException.class)
+    public ResponseEntity<Map<String,String>> loginExceptionHandler(LoginEssentialException e) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        Map<String, String> map = new HashMap<>();
+
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+
+        map.put("error type", httpStatus.getReasonPhrase());
+        map.put("code", String.valueOf(httpStatus.value()));
+        map.put("message", e.getMessage());
         return new ResponseEntity<>(map,httpHeaders, httpStatus);
     }
 }
