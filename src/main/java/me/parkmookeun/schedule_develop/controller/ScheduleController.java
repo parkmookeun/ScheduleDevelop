@@ -29,8 +29,9 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> readSchedules(){
-        List<ScheduleResponseDto> responseDtoList =  scheduleService.readSchedules();
+    public ResponseEntity<List<ScheduleResponseDto>> readSchedules(@RequestParam(required = false, defaultValue = "0") int pageNumber,
+                                                                   @RequestParam(required = false, defaultValue = "10") int pageSize){
+        List<ScheduleResponseDto> responseDtoList =  scheduleService.readSchedules(pageNumber, pageSize);
 
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }

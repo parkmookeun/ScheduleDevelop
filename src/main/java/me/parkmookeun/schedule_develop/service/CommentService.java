@@ -8,6 +8,10 @@ import me.parkmookeun.schedule_develop.exception.NoAuthorizationException;
 import me.parkmookeun.schedule_develop.exception.WrongInputException;
 import me.parkmookeun.schedule_develop.repository.CommentRepository;
 import me.parkmookeun.schedule_develop.repository.ScheduleRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,8 +48,12 @@ public class CommentService {
         return new CommentResponseDto(comment.getId(),comment.getContents(),comment.getCreatedAt());
     }
 
-    public List<CommentResponseDto> readAllComments(Long scheduleId) {
-        return commentRepository.findAllBySchedule_ScheduleId(scheduleId).stream().map(CommentResponseDto::new).toList();
+    public List<CommentResponseDto> readAllComments(Long scheduleId, int pageNumber, int pageSize) {
+        String criteria = "modifiedAt";
+        Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by(Sort.Direction.DESC, criteria));
+        Page<Comment> pageSchedules = commentRepository.findAllBySchedule_ScheduleId(pageable, scheduleId);
+
+        return pageSchedules.getContent().stream().map(CommentResponseDto::new).toList();
     }
 
     @Transactional
@@ -58,6 +66,8 @@ public class CommentService {
         }
 
         comment.setContents(dto.getContents());
+
+        commentRepository.saveAndFlush(comment);
 
         return new CommentUpdateResDto(comment.getId(),comment.getContents(),comment.getModifiedAt());
     }

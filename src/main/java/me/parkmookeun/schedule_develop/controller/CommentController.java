@@ -36,8 +36,10 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> readAllComments(@PathVariable Long scheduleId){
-        List<CommentResponseDto> dtoList = commentService.readAllComments(scheduleId);
+    public ResponseEntity<List<CommentResponseDto>> readAllComments(@PathVariable Long scheduleId,
+                                                                    @RequestParam(required = false, defaultValue = "0") int pageNumber,
+                                                                    @RequestParam(required = false, defaultValue = "10") int pageSize){
+        List<CommentResponseDto> dtoList = commentService.readAllComments(scheduleId, pageNumber, pageSize);
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }

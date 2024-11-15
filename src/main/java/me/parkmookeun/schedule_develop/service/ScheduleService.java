@@ -10,6 +10,10 @@ import me.parkmookeun.schedule_develop.entity.User;
 import me.parkmookeun.schedule_develop.exception.NoAuthorizationException;
 import me.parkmookeun.schedule_develop.repository.ScheduleRepository;
 import me.parkmookeun.schedule_develop.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +39,11 @@ public class ScheduleService {
                                        savedUser.getContents(), savedUser.getCreatedAt());
     }
 
-    public List<ScheduleResponseDto> readSchedules() {
-        List<Schedule> scheduleList = scheduleRepository.findAll();
+    public List<ScheduleResponseDto> readSchedules(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by(Sort.Direction.DESC,"modifiedAt"));
+        Page<Schedule> pageSchedules = scheduleRepository.findAll(pageable);
 
-        return scheduleList.stream().map(ScheduleResponseDto::new).toList();
+        return pageSchedules.getContent().stream().map(ScheduleResponseDto::new).toList();
     }
 
     public ScheduleResponseDto readSchedule(Long scheduleId) {
@@ -62,6 +67,8 @@ public class ScheduleService {
 
         schedule.setTitle(dto.getTitle());
         schedule.setContents(dto.getContents());
+
+        scheduleRepository.saveAndFlush(schedule);
 
         return new ScheduleUpdateResDto(schedule.getScheduleId(), schedule.getTitle(),
                 schedule.getContents(), schedule.getModifiedAt());
